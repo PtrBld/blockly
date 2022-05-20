@@ -68,9 +68,15 @@ const Coordinate = class {
    * @param {number} ty The value to translate y by.
    * @return {!Coordinate} This coordinate after translating.
    */
-  translate(tx, ty) {
-    this.x += tx;
-    this.y += ty;
+  translate(tx, ty, angle = 0) {
+    angle = - angle * Math.PI / 180;
+    var cosAngle = Math.cos(angle);
+    var sinAngle = Math.sin(angle);
+    var relativeX = ((this.x + tx) * cosAngle) - ((this.y + ty) * sinAngle);
+    var relativeY = ((this.x + tx) * sinAngle) + ((this.y + ty) * cosAngle);
+    console.log(`Angle: ${angle}, Original: ${tx}, ${ty}; Translated: ${relativeX}, ${relativeY}`);
+    this.x += relativeX;
+    this.y += relativeY;
     return this;
   }
 
